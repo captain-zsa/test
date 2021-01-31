@@ -1,0 +1,19 @@
+body {
+  color: $black-100;
+  background-color: $black-20;
+
+  font-family: "Roboto", "Arial", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
