@@ -2,12 +2,13 @@
   <div class="layout">
     <div class="layout__button">
       <AppButton
-        type="button"
-        fill
-        color="silver"
+        href="#"
+        is-button-fill
+        disabled
+        color="primary"
         icon="plus"
         icon-position="right"
-        icon-color="black"
+        icon-color="white"
       >
         Текст
       </AppButton>

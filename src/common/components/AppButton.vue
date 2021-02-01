@@ -3,12 +3,13 @@
     :is="tag"
     class="button"
     :class="buttonClasses"
-    :disabled="disabled && tag === 'button'"
+    :disabled="disabled"
     @mouseover="buttonHover()"
     @mouseout="buttonOut()"
+    @click="clickButton($event)"
   >
     <AppLoader
-      v-if="loading"
+      v-if="isButtonLoading"
       :color="loadingColor"
       class="button__loader"
     />
@@ -37,12 +38,12 @@ export default {
   name: 'AppButton',
 
   props : {
-    fill : {
+    isButtonFill : {
       type    : Boolean,
       default : false,
     },
 
-    loading : {
+    isButtonLoading : {
       type    : Boolean,
       default : false,
     },
@@ -61,12 +62,12 @@ export default {
       default : '',
     },
 
-    weight : {
+    isWeight : {
       type    : Boolean,
       default : false,
     },
 
-    round : {
+    isButtonRound : {
       type    : Boolean,
       default : false,
     },
@@ -125,16 +126,16 @@ export default {
     buttonClasses() {
       return {
         [`button--color--${this.color}`] : this.color,
-        'button--loading'                : this.loading,
-        'button--filled'                 : this.fill,
+        'button--loading'                : this.isButtonLoading,
+        'button--filled'                 : this.isButtonFill,
         'button--icon'                   : this.iconPosition === 'center',
-        'button--round'                  : this.round,
-        'button--weight'                 : this.weight,
+        'button--round'                  : this.isButtonRound,
+        'button--weight'                 : this.isButtonWeight,
       };
     },
 
     loadingColor() {
-      if (this.fill) {
+      if (this.isButtonFill) {
         return this.color === 'primary' ? 'white' : 'black';
       }
 
@@ -150,7 +151,7 @@ export default {
 
   methods : {
     buttonHover() {
-      if (this.disabled || this.fill) {
+      if (this.disabled || this.isButtonFill) {
         return;
       }
 
@@ -158,11 +159,17 @@ export default {
     },
 
     buttonOut() {
-      if (this.disabled || this.fill) {
+      if (this.disabled || this.isButtonFill) {
         return;
       }
 
       this.computedIconColor = this.iconColor;
+    },
+
+    clickButton(event) {
+      if (this.disabled) {
+        event.preventDefault();
+      }
     },
   },
 };
@@ -172,7 +179,7 @@ export default {
 @import "~@/assets/scss/ds-system/ds";
 
 .button {
-  $bl: ".button";
+  $block: ".button";
   @include r-s15-h20;
 
   display: block;
@@ -185,7 +192,7 @@ export default {
   text-align: center;
   cursor: pointer;
 
-  &:hover:not(:disabled):not(&--filled) {
+  &:hover:not(:disabled):not(&--filled):not([disabled]) {
     color: $primary-300;
     border-color: $primary-300;
   }
@@ -202,14 +209,14 @@ export default {
     border-radius: 32px;
   }
 
-  &:disabled {
+  &[disabled] {
     cursor: default;
     color: $black-60;
     border-color: $black-40;
   }
 
   &--filled {
-    &#{$bl}--color--silver {
+    &#{$block}--color--silver {
       color: $black-100;
       background-color: $black-5;
       border-color: transparent;
@@ -218,18 +225,18 @@ export default {
         background-color: $black-10;
       }
 
-      &:disabled {
+      &[disabled] {
         color: $black-70;
         background-color: $black-5;
       }
     }
 
-    &#{$bl}--color--primary:not(&:disabled) {
+    &#{$block}--color--primary:not(&[disabled]) {
       color: $white;
       background-color: $primary-300;
       border-color: rgba($black, 0.06);
 
-      &:hover:not(:disabled) {
+      &:hover:not(&[disabled]) {
         background-color: $primary-100;
         box-shadow: $shadow-4;
       }
