@@ -179,7 +179,7 @@ export default {
 @import "~@/assets/scss/ds-system/ds";
 
 .button {
-  $block: ".button";
+  $block: &;
   @include r-s15-h20;
 
   display: block;
